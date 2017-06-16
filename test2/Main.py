@@ -43,8 +43,8 @@ def gameLoop():
     snakeList = []
     snakeLength = 1
 
-    randAppleX = round(random.randrange(0, displayWidth-blockSize)/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
-    randAppleY = round(random.randrange(0, displayHeight-blockSize)/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
+    randAppleX = round(random.randrange(0, displayWidth-blockSize))#/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
+    randAppleY = round(random.randrange(0, displayHeight-blockSize))#/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
 
     while not gameExit:
         while gameOver == True:
@@ -53,6 +53,9 @@ def gameLoop():
             pygame.display.update()
 
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    gameExit = True
+                    gameOver = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
                         gameExit = True
@@ -114,13 +117,23 @@ def gameLoop():
 
 
         #Snake is in the same position as the apple (eats apple)
-        if lead_x == randAppleX and lead_y == randAppleY:
+        #does not take consideration of a slight interact, the whole snake head must cover the apple
+        # if lead_x == randAppleX and lead_y == randAppleY:
+        #
+        #     #set new coordinates for the apple after it is eaten
+        #     randAppleX = round(random.randrange(0,displayWidth - blockSize) / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+        #     randAppleY = round(random.randrange(0,displayHeight - blockSize) / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+        #
+        #     snakeLength += 1
 
-            #set new coordinates for the apple after it is eaten
-            randAppleX = round(random.randrange(0,displayWidth - blockSize) / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
-            randAppleY = round(random.randrange(0,displayHeight - blockSize) / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+        #Snake intersects the apple in any way even slightly for any apple size, much more accurate than previous if statement
+        if lead_x >= randAppleX and lead_x <= randAppleX + blockSize:
+            if lead_y >= randAppleY and lead_y <= randAppleY + blockSize:
 
-            snakeLength += 1
+                randAppleX = round(random.randrange(0,displayWidth - blockSize))# / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+                randAppleY = round(random.randrange(0,displayHeight - blockSize))# / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+
+                snakeLength += 1
 
         clock.tick(fps)  # frames per second
 
