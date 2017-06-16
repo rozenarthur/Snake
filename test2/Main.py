@@ -12,12 +12,15 @@ gameDisplay = pygame.display.set_mode((displayWidth, displayHeight))
 
 pygame.display.set_caption("Slytherin'")
 
-
-
 clock = pygame.time.Clock()
 fps = 30
 
 font = pygame.font.SysFont(None, 25)
+
+#modify the snake character, ie make him bigger when he eats an apple
+def snake(blockSize, snakelist):
+    for XnY in snakelist:
+        pygame.draw.rect(gameDisplay, blue, [XnY[0], XnY[1], blockSize, blockSize])
 
 def msg_to_scrn(msg, color):
     screen_text = font.render(msg, True, color)
@@ -36,6 +39,9 @@ def gameLoop():
 
     lead_x_change = 0
     lead_y_change = 0
+
+    snakeList = []
+    snakeLength = 1
 
     randAppleX = round(random.randrange(0, displayWidth-blockSize)/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
     randAppleY = round(random.randrange(0, displayHeight-blockSize)/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
@@ -89,13 +95,32 @@ def gameLoop():
         # gameDisplay.fill(red, rect=[200, 200, 50, 50])
         gameDisplay.fill(white)
         pygame.draw.rect(gameDisplay, red, [randAppleX, randAppleY, blockSize, blockSize])
-        pygame.draw.rect(gameDisplay, blue, [lead_x, lead_y, blockSize, blockSize])
+
+        snakeHead = []
+        snakeHead.append(lead_x)
+        snakeHead.append(lead_y)
+        snakeList.append(snakeHead)
+
+        if len(snakeList) > snakeLength:
+            del snakeList[0]
+
+        # check if the snake ran into itself, check all coordinates except the last one (snake head)
+        for eachSegment in snakeList[:-1]:
+            if eachSegment == snakeHead:
+                gameOver = True
+
+        snake(blockSize, snakeList)
         pygame.display.update()
 
 
         #Snake is in the same position as the apple (eats apple)
         if lead_x == randAppleX and lead_y == randAppleY:
-            print ("eat")
+
+            #set new coordinates for the apple after it is eaten
+            randAppleX = round(random.randrange(0,displayWidth - blockSize) / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+            randAppleY = round(random.randrange(0,displayHeight - blockSize) / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+
+            snakeLength += 1
 
         clock.tick(fps)  # frames per second
 
