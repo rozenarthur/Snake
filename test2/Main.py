@@ -33,11 +33,12 @@ def gameLoop():
 
     lead_x = displayWidth / 2
     lead_y = displayHeight / 2
+
     lead_x_change = 0
     lead_y_change = 0
 
-    randAppleX = random.randrange(0, displayWidth-blockSize) # so apple not offscreen
-    randAppleY = random.randrange(0, displayHeight-blockSize) # so apple not offscreen
+    randAppleX = round(random.randrange(0, displayWidth-blockSize)/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
+    randAppleY = round(random.randrange(0, displayHeight-blockSize)/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
 
     while not gameExit:
         while gameOver == True:
@@ -90,6 +91,11 @@ def gameLoop():
         pygame.draw.rect(gameDisplay, red, [randAppleX, randAppleY, blockSize, blockSize])
         pygame.draw.rect(gameDisplay, blue, [lead_x, lead_y, blockSize, blockSize])
         pygame.display.update()
+
+
+        #Snake is in the same position as the apple (eats apple)
+        if lead_x == randAppleX and lead_y == randAppleY:
+            print ("eat")
 
         clock.tick(fps)  # frames per second
 
