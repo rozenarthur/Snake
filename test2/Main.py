@@ -13,6 +13,7 @@ gameDisplay = pygame.display.set_mode((displayWidth, displayHeight))
 pygame.display.set_caption("Slytherin'")
 
 img = pygame.image.load('head.png')
+apple = pygame.image.load('apple.png')
 
 clock = pygame.time.Clock()
 fps = 25
@@ -129,7 +130,8 @@ def gameLoop():
 
         # gameDisplay.fill(red, rect=[200, 200, 50, 50])
         gameDisplay.fill(white)
-        pygame.draw.rect(gameDisplay, red, [randAppleX, randAppleY, blockSize, blockSize])
+        #pygame.draw.rect(gameDisplay, red, [randAppleX, randAppleY, blockSize, blockSize])
+        gameDisplay.blit(apple, (randAppleX, randAppleY))
 
         snakeHead = []
         snakeHead.append(lead_x)
