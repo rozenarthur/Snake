@@ -27,7 +27,7 @@ def msg_to_scrn(msg, color):
     gameDisplay.blit(screen_text, [displayWidth/2, displayHeight/2])
 
 
-blockSize = 10  # size of each square of the snake
+blockSize = 20  # size of each square of the snake
 
 # **Logical Game loop that runs the controls and changes of your game**
 def gameLoop():
@@ -115,24 +115,20 @@ def gameLoop():
         snake(blockSize, snakeList)
         pygame.display.update()
 
-
-        #Snake is in the same position as the apple (eats apple)
-        #does not take consideration of a slight interact, the whole snake head must cover the apple
-        # if lead_x == randAppleX and lead_y == randAppleY:
+    #Snake intersects the apple in any way even slightly for any apple size, much more accurate than previous if statement
+        # if lead_x >= randAppleX and lead_x <= randAppleX + blockSize:
+        #     if lead_y >= randAppleY and lead_y <= randAppleY + blockSize:
         #
-        #     #set new coordinates for the apple after it is eaten
-        #     randAppleX = round(random.randrange(0,displayWidth - blockSize) / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
-        #     randAppleY = round(random.randrange(0,displayHeight - blockSize) / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+        #         randAppleX = round(random.randrange(0,displayWidth - blockSize))# / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+        #         randAppleY = round(random.randrange(0,displayHeight - blockSize))# / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
         #
-        #     snakeLength += 1
+        #         snakeLength += 1
 
-        #Snake intersects the apple in any way even slightly for any apple size, much more accurate than previous if statement
-        if lead_x >= randAppleX and lead_x <= randAppleX + blockSize:
-            if lead_y >= randAppleY and lead_y <= randAppleY + blockSize:
+        if lead_x > randAppleX and lead_x < randAppleX + blockSize or lead_x + blockSize > randAppleX and lead_x + blockSize < randAppleX + blockSize:
+            if lead_y > randAppleY and lead_y < randAppleY + blockSize or lead_y + blockSize > randAppleY and lead_y + blockSize < randAppleY + blockSize:
 
-                randAppleX = round(random.randrange(0,displayWidth - blockSize))# / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+                randAppleX = round(random.randrange(0,displayWidth - blockSize))  # / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
                 randAppleY = round(random.randrange(0,displayHeight - blockSize))# / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
-
                 snakeLength += 1
 
         clock.tick(fps)  # frames per second
