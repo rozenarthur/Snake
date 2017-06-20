@@ -19,7 +19,10 @@ clock = pygame.time.Clock()
 fps = 25
 
 direction = "right"
-font = pygame.font.SysFont(None, 25)
+
+smallfont = pygame.font.Font(None, 25)
+medfont = pygame.font.Font(None, 50)
+largefont = pygame.font.Font(None, 80)
 
 #modify the snake character, i.e. make him bigger when he eats an apple
 def snake(blockSize, snakelist):
@@ -42,16 +45,22 @@ def snake(blockSize, snakelist):
     for XnY in snakelist[:-1]:
         pygame.draw.rect(gameDisplay, blue, [XnY[0], XnY[1], blockSize, blockSize])
 
-def text_objects(text, color):
-    textSurface = font.render(text, True, color)
+def text_objects(text, color, size):
+    if size == "small":
+        textSurface = smallfont.render(text, True, color)
+
+    elif size == "medium":
+        textSurface = medfont.render(text, True, color)
+
+    elif size == "large":
+        textSurface = largefont.render(text, True, color)
+
     return textSurface, textSurface.get_rect()
 
-def msg_to_scrn(msg, color):
+def msg_to_scrn(msg, color, y_displace = 0, size = "small"):
 
-    # screen_text = font.render(msg, True, color)
-    # gameDisplay.blit(screen_text, [displayWidth/2, displayHeight/2])
-    textSurf, textRect = text_objects(msg, color)
-    textRect.center = (displayWidth/2), (displayHeight/2)
+    textSurf, textRect = text_objects(msg, color, size)
+    textRect.center = (displayWidth/2), (displayHeight/2)+ y_displace
     gameDisplay.blit(textSurf, textRect)
 
 
@@ -78,7 +87,8 @@ def gameLoop():
     while not gameExit:
         while gameOver == True:
             gameDisplay.fill(white)
-            msg_to_scrn("Game Over, Press c to play Again! or q to quit", red)
+            msg_to_scrn("Game Over", red, -50,"large")
+            msg_to_scrn("Press c to play Again! or q to quit", black, 50, "medium")
             pygame.display.update()
 
             for event in pygame.event.get():
