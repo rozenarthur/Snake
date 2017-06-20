@@ -24,6 +24,34 @@ smallfont = pygame.font.Font(None, 25)
 medfont = pygame.font.Font(None, 50)
 largefont = pygame.font.Font(None, 80)
 
+#start screen
+def game_intro():
+
+    intro = True
+
+    while intro:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    intro = False
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+
+        gameDisplay.fill(white)
+        msg_to_scrn("Welcome to Slytherin", green, -100, "large")
+        msg_to_scrn("The Objective of the game is to eat the apples", black, -30, "small")
+        msg_to_scrn("The more you eat, the bigger your Snake!", black, 10, "small")
+        msg_to_scrn("If you run into yourself or the edges, you die!", black, 50, "small")
+        msg_to_scrn("Press C to play or Q to Quit.", black, 180, "small")
+
+        pygame.display.update()
+        clock.tick(15)
+
 #modify the snake character, i.e. make him bigger when he eats an apple
 def snake(blockSize, snakelist):
 
@@ -88,7 +116,7 @@ def gameLoop():
         while gameOver == True:
             gameDisplay.fill(white)
             msg_to_scrn("Game Over", red, -50,"large")
-            msg_to_scrn("Press c to play Again! or q to quit", black, 50, "medium")
+            msg_to_scrn("Press C to play Again or Q to quit!", black, 50, "medium")
             pygame.display.update()
 
             for event in pygame.event.get():
@@ -180,4 +208,5 @@ def gameLoop():
     pygame.quit()
     quit()
 
+game_intro()
 gameLoop()
