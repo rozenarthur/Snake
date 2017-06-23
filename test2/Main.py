@@ -10,13 +10,16 @@ displayHeight = 600
 
 gameDisplay = pygame.display.set_mode((displayWidth, displayHeight))
 
-pygame.display.set_caption("Slytherin'")
+pygame.display.set_caption("Slytherin")
 
+icon = pygame.image.load('icon.png');
 img = pygame.image.load('head.png')
 apple = pygame.image.load('apple.png')
 
+pygame.display.set_icon(icon)
+
 clock = pygame.time.Clock()
-fps = 25
+fps = 22
 
 direction = "right"
 
@@ -97,6 +100,8 @@ blockSize = 20  # size of each square of the snake
 # **Logical Game loop that runs the controls and changes of your game**
 def gameLoop():
     global direction
+
+    direction = 'right'
     gameExit = False
     gameOver = False
 
