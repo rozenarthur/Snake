@@ -76,6 +76,16 @@ def snake(blockSize, snakelist):
     for XnY in snakelist[:-1]:
         pygame.draw.rect(gameDisplay, blue, [XnY[0], XnY[1], blockSize, blockSize])
 
+def randAppleGen():
+    randAppleX = round(random.randrange(0,
+                displayWidth - blockSize))  # / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+
+    randAppleY = round(random.randrange(0,
+                displayHeight - blockSize))  # / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+
+    return randAppleX, randAppleY
+
+
 def text_objects(text, color, size):
     if size == "small":
         textSurface = smallfont.render(text, True, color)
@@ -114,8 +124,7 @@ def gameLoop():
     snakeList = []
     snakeLength = 1
 
-    randAppleX = round(random.randrange(0, displayWidth-blockSize))#/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
-    randAppleY = round(random.randrange(0, displayHeight-blockSize))#/10.0) * 10.0 # so apple not offscreen and only appears in multiples of 10
+    randAppleX, randAppleY = randAppleGen()
 
     while not gameExit:
         while gameOver == True:
@@ -204,8 +213,7 @@ def gameLoop():
         if lead_x >= randAppleX and lead_x <= randAppleX + blockSize or lead_x + blockSize >= randAppleX and lead_x + blockSize <= randAppleX + blockSize:
             if lead_y >= randAppleY and lead_y <=randAppleY + blockSize or lead_y + blockSize >= randAppleY and lead_y + blockSize <= randAppleY + blockSize:
 
-                randAppleX = round(random.randrange(0,displayWidth - blockSize))  # / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
-                randAppleY = round(random.randrange(0,displayHeight - blockSize))# / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
+                randAppleX, randAppleY = randAppleGen()
                 snakeLength += 1
 
         clock.tick(fps)  # frames per second
