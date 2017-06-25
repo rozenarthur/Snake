@@ -76,6 +76,10 @@ def snake(blockSize, snakelist):
     for XnY in snakelist[:-1]:
         pygame.draw.rect(gameDisplay, blue, [XnY[0], XnY[1], blockSize, blockSize])
 
+def score(score):
+    text = smallfont.render("Score: " + str(score), True, black)
+    gameDisplay.blit(text, [0,0])
+
 def randAppleGen():
     randAppleX = round(random.randrange(0,
                 displayWidth - blockSize))  # / 10.0) * 10.0  # so apple not offscreen and only appears in multiples of 10
@@ -131,6 +135,7 @@ def gameLoop():
             gameDisplay.fill(white)
             msg_to_scrn("Game Over", red, -50,"large")
             msg_to_scrn("Press C to play Again or Q to quit!", black, 50, "medium")
+            msg_to_scrn("Your score is: " + str(snakeLength - 1), black, 150, "medium")
             pygame.display.update()
 
             for event in pygame.event.get():
@@ -199,6 +204,9 @@ def gameLoop():
                 gameOver = True
 
         snake(blockSize, snakeList)
+
+        score(snakeLength - 1) #since the length of the snake starts at 1
+
         pygame.display.update()
 
     #Snake intersects the apple in any way even slightly for any apple size, much more accurate than previous if statement
