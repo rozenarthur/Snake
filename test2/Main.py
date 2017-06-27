@@ -50,7 +50,7 @@ def game_intro():
         msg_to_scrn("The Objective of the game is to eat the apples", black, -30, "small")
         msg_to_scrn("The more you eat, the bigger your Snake!", black, 10, "small")
         msg_to_scrn("If you run into yourself or the edges, you die!", black, 50, "small")
-        msg_to_scrn("Press C to play or Q to Quit.", black, 180, "small")
+        msg_to_scrn("Press C to play, P to pause or Q to Quit.", black, 180, "small")
 
         pygame.display.update()
         clock.tick(15)
@@ -75,6 +75,28 @@ def snake(blockSize, snakelist):
 
     for XnY in snakelist[:-1]:
         pygame.draw.rect(gameDisplay, blue, [XnY[0], XnY[1], blockSize, blockSize])
+
+#pause the game
+def pause():
+    paused = True
+
+    while(paused):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    paused = False
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+
+        gameDisplay.fill(white)
+        msg_to_scrn("Paused", red, -100, "large")
+        msg_to_scrn("Press C to continue or Q to quit!", black, 25, "small")
+        pygame.display.update()
+        clock.tick(5)
 
 def score(score):
     text = smallfont.render("Score: " + str(score), True, black)
@@ -172,6 +194,9 @@ def gameLoop():
                     lead_y_change = blockSize
                     lead_x_change = 0 # avoids diagonal movement
                     direction = "down"
+
+                elif event.key == pygame.K_p: # pause game if p key is clicked
+                    pause()
 
             #  **Stops Movements when the button click is over (EVENT KEYUP), THIS IS AN EXAMPLE, NOT USEFUL FOR SNAKE GAME**
             # if event.type == pygame.KEYUP:
